@@ -8,19 +8,19 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 
 @Aspect
-@Component
 public class DbRouterAspectj {
-    @Autowired
-    private DbRouterConfigureProperties dbRouterConfigureProperties;
-    @Autowired
-    private IDbRouterStrategy dbRouterStrategy;
+    private final DbRouterConfigureProperties dbRouterConfigureProperties;
+    private final IDbRouterStrategy dbRouterStrategy;
+
+    public DbRouterAspectj(DbRouterConfigureProperties dbRouterConfigureProperties, IDbRouterStrategy dbRouterStrategy) {
+        this.dbRouterConfigureProperties = dbRouterConfigureProperties;
+        this.dbRouterStrategy = dbRouterStrategy;
+    }
 
     @Pointcut("@annotation(com.flameking.middleware.db.router.annotation.DbRouter)")
     public void pointCut() {

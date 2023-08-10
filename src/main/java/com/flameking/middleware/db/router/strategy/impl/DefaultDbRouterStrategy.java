@@ -3,13 +3,13 @@ package com.flameking.middleware.db.router.strategy.impl;
 import com.flameking.middleware.db.router.config.DbRouterConfigureProperties;
 import com.flameking.middleware.db.router.strategy.IDbRouterStrategy;
 import com.flameking.middleware.db.router.support.DataSourceContextHolder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class DefaultDbRouterStrategy implements IDbRouterStrategy {
-    @Autowired
-    private DbRouterConfigureProperties dbRouterConfigureProperties;
+    private final DbRouterConfigureProperties dbRouterConfigureProperties;
+
+    public DefaultDbRouterStrategy(DbRouterConfigureProperties dbRouterConfigureProperties) {
+        this.dbRouterConfigureProperties = dbRouterConfigureProperties;
+    }
 
     public void doRouter(String val){
         Integer dbCount = dbRouterConfigureProperties.getDbCount();
