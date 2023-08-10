@@ -12,6 +12,8 @@ public class MyRouter {
 
         //调用路由策略根据key计算数据库索引和表索引
 
+        //获取路由key的值
+
         //保存库索引和表索引到ThreadLocal
 
         //mybatis执行sql前进行拦截替换掉对应的sql语句

@@ -1,17 +1,27 @@
 package com.flameking.middleware.db.router.support;
 
 public class DataSourceContextHolder {
-    private final static ThreadLocal<String> holder = new ThreadLocal<>();
+    private final static ThreadLocal<Integer> dbHolder = new ThreadLocal<>();
+    private final static ThreadLocal<Integer> tbHolder = new ThreadLocal<>();
 
-    public static String get(){
-        return holder.get();
+    public static Integer getDbKey(){
+        return dbHolder.get();
     }
 
-    public static void set(String key){
-        holder.set(key);
+    public static void setDbKey(Integer key){
+        dbHolder.set(key);
+    }
+
+    public static Integer getTbKey(){
+        return tbHolder.get();
+    }
+
+    public static void setTbKey(Integer key){
+        tbHolder.set(key);
     }
 
     public static void clear(){
-        holder.remove();
+        dbHolder.remove();
+        tbHolder.remove();
     }
 }
