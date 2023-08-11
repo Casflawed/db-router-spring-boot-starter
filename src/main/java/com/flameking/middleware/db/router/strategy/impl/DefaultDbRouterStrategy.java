@@ -23,7 +23,7 @@ public class DefaultDbRouterStrategy implements IDbRouterStrategy {
         int dbKey = idx / tbCount + 1;
         int tbKey = idx - (dbKey - 1) * tbCount;
 
-        DataSourceContextHolder.setDbKey(dbKey);
-        DataSourceContextHolder.setTbKey(tbKey);
+        DataSourceContextHolder.setDbKey(String.format("%02d", dbKey));
+        DataSourceContextHolder.setTbKey(String.format("%03d",tbKey));
     }
 }
