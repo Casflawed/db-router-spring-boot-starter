@@ -1,8 +1,8 @@
 package com.flameking.middleware.db.router.aspectj;
 
-import com.flameking.middleware.db.router.annotation.DbRouter;
-import com.flameking.middleware.db.router.config.DbRouterConfigureProperties;
-import com.flameking.middleware.db.router.strategy.IDbRouterStrategy;
+import com.flameking.middleware.db.router.annotation.DBRouter;
+import com.flameking.middleware.db.router.config.DBRouterConfigureProperties;
+import com.flameking.middleware.db.router.strategy.IDBRouterStrategy;
 import com.flameking.middleware.db.router.support.DataSourceContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,36 +13,36 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Field;
 
 @Aspect
-public class DbRouterAspectj {
-    private final DbRouterConfigureProperties dbRouterConfigureProperties;
-    private final IDbRouterStrategy dbRouterStrategy;
+public class DBRouterAspectj {
+    private final DBRouterConfigureProperties dbRouterConfigureProperties;
+    private final IDBRouterStrategy dbRouterStrategy;
 
-    public DbRouterAspectj(DbRouterConfigureProperties dbRouterConfigureProperties, IDbRouterStrategy dbRouterStrategy) {
+    public DBRouterAspectj(DBRouterConfigureProperties dbRouterConfigureProperties, IDBRouterStrategy dbRouterStrategy) {
         this.dbRouterConfigureProperties = dbRouterConfigureProperties;
         this.dbRouterStrategy = dbRouterStrategy;
     }
 
-    @Pointcut("@annotation(com.flameking.middleware.db.router.annotation.DbRouter)")
+    @Pointcut("@annotation(com.flameking.middleware.db.router.annotation.DBRouter)")
     public void pointCut() {
     }
 
     @Around("pointCut() && @annotation(dbRouter)")
-    public Object doRouter(ProceedingJoinPoint jp, DbRouter dbRouter) throws Throwable {
-        //从注解中获取到计算库索引和表索引的key
-        String routerKey = dbRouter.key();
+    public Object doRouter(ProceedingJoinPoint jp, DBRouter dbRouter) throws Throwable {
+        // 从注解中获取到计算库索引和表索引的key
+        String routerKey = dbRouter.param();
         if (StringUtils.isEmpty(routerKey)){
             routerKey = dbRouterConfigureProperties.getRouterKey();
         }
-        //获取路由key的值
+        // 获取路由key的值
         String routerKeyValue = getAttrValue(routerKey, jp.getArgs());
 
-        //调用表库索引计算策略
+        // 调用表库索引计算策略
         dbRouterStrategy.doRouter(routerKeyValue);
 
-        //放行orm执行sql
+        // 放行orm执行sql
         Object returnValue = jp.proceed();
 
-        //清空ThreadLocal
+        // 清空ThreadLocal
         DataSourceContextHolder.clear();
 
         return returnValue;
@@ -68,7 +68,8 @@ public class DbRouterAspectj {
 
             }
         } catch (Exception e) {
-//                logger.error("获取路由属性值失败 attr：{}", attr, e);
+            // logger.error("获取路由属性值失败 attr：{}", attr, e);
+            e.printStackTrace();
         }
         return filedValue;
     }

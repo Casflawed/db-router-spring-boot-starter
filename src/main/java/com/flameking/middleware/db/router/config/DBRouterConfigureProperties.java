@@ -5,16 +5,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
 
 @ConfigurationProperties(prefix = "mini-db-router.jdbc.datasource")
-public class DbRouterConfigureProperties {
-    //分库数量
+public class DBRouterConfigureProperties {
+    // 分库数量
     private Integer dbCount;
-    //分表数量
+    // 分表数量
     private Integer tbCount;
-    //默认库
+    // 默认库
     private String dbDefault;
-    //路由键
+    // 路由键
     private String routerKey;
-    //分库列表
+    // 分库列表
     private List<String> dbList;
 
     public Integer getDbCount() {
@@ -56,4 +56,6 @@ public class DbRouterConfigureProperties {
     public void setDbList(List<String> dbList) {
         this.dbList = dbList;
     }
+
+
 }
