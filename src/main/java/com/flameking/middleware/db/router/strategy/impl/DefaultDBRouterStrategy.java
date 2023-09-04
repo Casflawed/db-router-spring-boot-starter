@@ -27,4 +27,24 @@ public class DefaultDBRouterStrategy implements IDBRouterStrategy {
         DataSourceContextHolder.setDbKey(String.format("%02d", dbKey));
         DataSourceContextHolder.setTbKey(String.format("%03d", tbKey));
     }
+
+    @Override
+    public void setDbKey(int dbIdx) {
+        DataSourceContextHolder.setDbKey(String.format("%02d", dbIdx));
+    }
+
+    @Override
+    public void setTbKey(int tbIdx) {
+        DataSourceContextHolder.setTbKey(String.format("%03d", tbIdx));
+    }
+
+    @Override
+    public int dbCount() {
+        return properties.getDbCount();
+    }
+
+    @Override
+    public int tbCount() {
+        return properties.getTbCount();
+    }
 }
