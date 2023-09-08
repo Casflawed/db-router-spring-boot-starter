@@ -7,6 +7,7 @@
     <artifactId>db-router-spring-boot-starter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
+    <!--  一般来说加了这个 parent 是用来进行依赖管理的，一些依赖的版本号我们就不用写了  -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -15,20 +16,22 @@
     </parent>
 
     <dependencies>
+        <!-- SpringBoot 提供的，导入它就不用像 Spring 一样做一堆配置了，这里面已经使用默认值帮我们配置好了，
+        而我们可以修改这些默认值 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.58</version>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -40,7 +43,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.18</version>
+<!--            <version>8.0.18</version>-->
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.58</version>
         </dependency>
 
     </dependencies>

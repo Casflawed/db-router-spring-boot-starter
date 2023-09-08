@@ -25,30 +25,31 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-@EnableConfigurationProperties(DBRouterConfigureProperties.class)
+@EnableConfigurationProperties(DBRouterProperties.class)
 public class DBRouterAutoConfig implements EnvironmentAware {
     // 默认数据源配置
     private final Map<String, String> defaultTargetDataSourceConfig = new HashMap<>();
     // 动态多数据源配置（配置上下文环境）
     private final Map<String, Map<String, String>> targetDataSourceConfig = new HashMap<>();
     // 动态数据库路由属性配置
-    private final DBRouterConfigureProperties properties;
+    private final DBRouterProperties properties;
 
-    public DBRouterAutoConfig(DBRouterConfigureProperties properties) {
+    public DBRouterAutoConfig(DBRouterProperties properties) {
         this.properties = properties;
     }
 
-    @Bean
+    @Bean(name = "db-router-point")
+    //如果容器中不存在这个 Bean（组件），则触发指定行为（Bean 初始化并交给 Spring 管理），这个注解的作用就是保证当前Bean在容器中只有一个。
     @ConditionalOnMissingBean
-    public DBRouterAspectj point(DBRouterConfigureProperties dbRouterConfigureProperties, IDBRouterStrategy dbRouterStrategy) {
-        return new DBRouterAspectj(dbRouterConfigureProperties, dbRouterStrategy);
+    public DBRouterAspectj point(DBRouterProperties dbRouterProperties, IDBRouterStrategy dbRouterStrategy) {
+        return new DBRouterAspectj(dbRouterProperties, dbRouterStrategy);
     }
 
     /**
      * 路由策略实现（实际上唯一的作用就是生成分库分表路由）
      */
     @Bean
-    public IDBRouterStrategy dbRouterStrategy(DBRouterConfigureProperties properties) {
+    public IDBRouterStrategy dbRouterStrategy(DBRouterProperties properties) {
         return new DefaultDBRouterStrategy(properties);
     }
 
@@ -64,7 +65,7 @@ public class DBRouterAutoConfig implements EnvironmentAware {
      * 动态数据源（数据源上下文切换，用于实现数据库路由）
      */
     @Bean
-    public DynamicDataSource dataSource(DBRouterConfigureProperties properties){
+    public DynamicDataSource dataSource(DBRouterProperties properties){
         DynamicDataSource dataSource = new DynamicDataSource();
         DriverManagerDataSource defaultDataSource = new DriverManagerDataSource(this.defaultTargetDataSourceConfig.get("url"), this.defaultTargetDataSourceConfig.get("username"), this.defaultTargetDataSourceConfig.get("password"));
         dataSource.setDefaultTargetDataSource(defaultDataSource);
@@ -105,7 +106,7 @@ public class DBRouterAutoConfig implements EnvironmentAware {
     @Override
     public void setEnvironment(Environment environment) {
         // 获取配置前缀
-        Class<? extends DBRouterConfigureProperties> clazz = DBRouterConfigureProperties.class;
+        Class<? extends DBRouterProperties> clazz = DBRouterProperties.class;
         Annotation[] declaredAnnotations = clazz.getDeclaredAnnotations();
         String prefix = ((ConfigurationProperties)declaredAnnotations[0]).prefix() + ".";
 

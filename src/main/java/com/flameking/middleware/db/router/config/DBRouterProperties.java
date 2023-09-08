@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
 
 @ConfigurationProperties(prefix = "mini-db-router.jdbc.datasource")
-public class DBRouterConfigureProperties {
+public class DBRouterProperties {
     // 分库数量
     private Integer dbCount;
     // 分表数量

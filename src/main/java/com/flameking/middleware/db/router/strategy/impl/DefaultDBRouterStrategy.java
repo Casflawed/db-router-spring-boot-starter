@@ -1,13 +1,13 @@
 package com.flameking.middleware.db.router.strategy.impl;
 
-import com.flameking.middleware.db.router.config.DBRouterConfigureProperties;
+import com.flameking.middleware.db.router.config.DBRouterProperties;
 import com.flameking.middleware.db.router.strategy.IDBRouterStrategy;
 import com.flameking.middleware.db.router.support.DataSourceContextHolder;
 
 public class DefaultDBRouterStrategy implements IDBRouterStrategy {
-    private final DBRouterConfigureProperties properties;
+    private final DBRouterProperties properties;
 
-    public DefaultDBRouterStrategy(DBRouterConfigureProperties properties) {
+    public DefaultDBRouterStrategy(DBRouterProperties properties) {
         this.properties = properties;
     }
 

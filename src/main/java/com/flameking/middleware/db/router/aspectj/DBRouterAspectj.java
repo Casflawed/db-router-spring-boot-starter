@@ -1,7 +1,7 @@
 package com.flameking.middleware.db.router.aspectj;
 
 import com.flameking.middleware.db.router.annotation.DBRouter;
-import com.flameking.middleware.db.router.config.DBRouterConfigureProperties;
+import com.flameking.middleware.db.router.config.DBRouterProperties;
 import com.flameking.middleware.db.router.strategy.IDBRouterStrategy;
 import com.flameking.middleware.db.router.support.DataSourceContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -14,11 +14,11 @@ import java.lang.reflect.Field;
 
 @Aspect
 public class DBRouterAspectj {
-    private final DBRouterConfigureProperties dbRouterConfigureProperties;
+    private final DBRouterProperties dbRouterProperties;
     private final IDBRouterStrategy dbRouterStrategy;
 
-    public DBRouterAspectj(DBRouterConfigureProperties dbRouterConfigureProperties, IDBRouterStrategy dbRouterStrategy) {
-        this.dbRouterConfigureProperties = dbRouterConfigureProperties;
+    public DBRouterAspectj(DBRouterProperties dbRouterProperties, IDBRouterStrategy dbRouterStrategy) {
+        this.dbRouterProperties = dbRouterProperties;
         this.dbRouterStrategy = dbRouterStrategy;
     }
 
@@ -31,7 +31,7 @@ public class DBRouterAspectj {
         // 从注解中获取到计算库索引和表索引的key
         String routerKey = dbRouter.param();
         if (StringUtils.isEmpty(routerKey)){
-            routerKey = dbRouterConfigureProperties.getRouterKey();
+            routerKey = dbRouterProperties.getRouterKey();
         }
         // 获取路由key的值
         String routerKeyValue = getAttrValue(routerKey, jp.getArgs());
